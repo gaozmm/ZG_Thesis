@@ -1,0 +1,476 @@
+% % Preamble (Martin Vindbæk Madsen (marts 2013))
+
+% Størrelse papir, skriftstørrelse
+\documentclass[a4paper,11pt,twoside,openright]{memoir} %\documentclass[a4paper,10pt,twoside,openright]{memoir}
+
+% Opsætning af margin
+\setlrmarginsandblock{*}{3.3cm}{1} %\setlrmarginsandblock{*}{4.0cm}{.8} 
+\setulmarginsandblock{2.3cm}{*}{1}
+\checkandfixthelayout
+
+%%%%%%%%%%%%%%%%%%%
+%-----ANVENDTE PAKKER---------start
+%%%%%%%%%%%%%%%%%%%
+
+% Danske bogstaver tilladt, orddeling mm.
+\usepackage[utf8]{inputenc} % utf8,  ansinew, latin1
+\usepackage[english,danish]{babel} % ordbog
+\usepackage[T1]{fontenc} % bedre orddeling og ofte påkrævet af forskellige fonte
+\usepackage{lmodern} % lmodern, palatino, mathpazo eller lignende
+	 
+	 
+% Matematik, kemi, fysik  relaterede pakker samt symboler
+\usepackage{amsmath,amssymb,stmaryrd,amsfonts,amssymb} % bedre matematik og ekstra fonte
+\usepackage{mathptmx}
+\usepackage[fixamsmath]{mathtools} %tillader brugen af \ArrowBetweenLines
+	\providecommand{\abs}[1]{\lvert#1\rvert} % gør det muligt at bruge kommandoen \abs{arg1} til at skrive længden af en vektor.
+\usepackage{xfrac}
+	\everymath=\expandafter{\the \everymath \displaystyle} % forstørrer matricer og math generelt
+\usepackage{icomma} %forhindrer latex i at lave et mellerum efter komma i math-mode...
+%\usepackage[amssymb]{SIunits} % SI units i math-mode
+\usepackage{siunitx}
+	\DeclareSIUnit\century{century}
+	\DeclareSIUnit\year{yr}
+
+\usepackage[version=3]{mhchem} % praktisk til at skrive kemi inkl. reaktionsskemaer
+\usepackage{rsphrase} % til R og S sætninger
+\usepackage{latexsym}% symboler, saa skulle alle symboler i The Not So... virke
+\usepackage{textcomp} % adgang til tekstsymboler
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode} %Be.nyttes til at lave MatLab lignende kode i LaTeX 
+\usepackage[amsmath,thmmarks,framed]{ntheorem}
+%\usepackage{ulem} % benyt \uuline{text} til matricer
+\usepackage{mathrsfs} % til at lave krøllede bogstaver til baser. \mathscr
+
+% Figurer, grafik og tabeller
+\usepackage{multicol}
+\usepackage{xcolor,colortbl}
+\usepackage{array,longtable}
+\usepackage{graphicx} % pakke til inklusion af grafik
+\usepackage[percent]{overpic} % pakke som gør det nemt at overlappe billeder. Brug \begin{overpic} og \put
+\usepackage{adjustbox} %use \begin{adjustbox}{center} <your table> \end{adjustbox} to adjust box on page.
+\usepackage{lipsum}
+\newenvironment{bottompar}{\par\vspace*{\fill}}{\clearpage}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,circuits.ee.IEC,positioning,
+	shapes.geometric,decorations.pathmorphing,shapes,automata,backgrounds,petri,fit}
+%\def\xcolorversion{2.00}
+%\def\xkeyvalversion{1.8}
+%\usepackage[version=0.96]{pgf}
+\usepackage{ctable}
+\usepackage{pgfplots}
+\usepackage{epstopdf}
+\usepackage{pdfpages} % skriv \includepdf{filename} man behøver ikke .pdf
+\usepackage{color,calc,soul}
+\usepackage{comment}
+\usepackage{tocloft}
+\usepackage{shorttoc}
+\usepackage{multirow}
+\usepackage{framed} %bruges under teoremopsætning
+\usepackage{capt-of}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{sidecap}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{pdflscape}
+\usepackage{rotating}
+
+% Nummerering
+\usepackage{chngcntr} %Gør det muligt at ændre nummerering af alt muligt
+
+% Noter, krydshenvisninger mm.
+\usepackage[danish]{varioref} % smarte krydsreferencer via \vref
+%\usepackage{todonotes} 
+\usepackage{url}
+	\urlstyle{same}
+%\usepackage[draft,notcite,notref]{showkeys} % labels i margin
+%\usepackage{makeidx}
+%\usepackage{showidx}
+%	\showindexmarks 
+%%	\hideindexmarks
+
+	
+% Litteraurhenvisninger
+\usepackage[square,authoryear,super,comma,sort&compress]{natbib} % opsætning til bibtex, vedr. referencer
+\bibliographystyle{unsrt} % achemso plainnat apsrev4-1      husk ingen endelser .bst
+
+% Hyperref
+\usepackage[colorlinks=true, linkcolor=black,citecolor=black,urlcolor=black]{hyperref} % Laver links klickbare, og blå. SKAL stå som den sidste pakke der hentes!!!!
+\usepackage{memhfixc}
+%%%%%%%%%%%%%%%%%%%
+%-----ANVENDTE PAKKER---------slut
+%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%
+% -------OPSÆTNINGER-------- start
+%%%%%%%%%%%%%%%%%%%
+
+
+\pgfplotsset{compat=1.3}
+
+
+% Litteraturhenvisning
+\def\bibfont{\footnotesize} %ændrer størrelsen på skriften i bibliography. Man kan også vælge \small eller andre størrelser. Kan kun benyttes ved natbib pakken.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
+% -----ToC - opsætning----------start
+%%%%%%%%%%%%%%%%%%%
+\setsecnumdepth{subsection} % eller hvor dybt man nu ønsker at have opskrifterne nummereret
+\maxsecnumdepth{subsection}
+\settocdepth{subsection} % hvor dybt ned vi ønsker ting med i indholdsfortegnelsen
+
+% de næste linier forårsager, at der skrives chapter 1 og Appendix A i ToC'en
+\renewcommand\cftchaptername{\chaptername~}
+\renewcommand\cftappendixname{\appendixname~}
+\renewcommand*{\cftchapteraftersnum}{.} % dot after number
+
+%fjerner alle prikker mellem overskrift og sidetal
+%\renewcommand{\cftdotsep}{\cftnodots}
+
+%den følgende kan ændre vertikale afstande og derved bruges til at justere hvor sideskiftet kommer til at ligge
+\renewcommand{\cftbeforesectionskip}{0.2em}
+\renewcommand{\cftbeforesubsectionskip}{0.1em}
+
+%De næste 6 kommandoer rykker sectionsindgangene i Toc'en helt til venstre og sørger for at resten følger med.
+\setlength{\cftsectionindent}{0cm}
+\setlength{\cftsubsectionindent}{1.2cm}
+\setlength{\cftsubsubsectionindent}{2.4cm}
+
+\setlength{\cftsectionnumwidth}{2.2em}
+\setlength{\cftsubsectionnumwidth}{3em}
+\setlength{\cftsubsubsectionnumwidth}{4.7em}
+
+%%%%%%%%%%%%%%%%%%%
+% -----ToC - opsætning----------slut
+%%%%%%%%%%%%%%%%%%%
+
+% Lav index
+\makeindex
+
+
+%%%%%%%%%%%%%%%%%%%
+%-------Chapterstyle (daleif1)--------start
+%%%%%%%%%%%%%%%%%%%
+
+%\usepackage{color,calc,graphicx,soul,lmodern}
+\definecolor{niceblue}{rgb}{.29,.29,.29}
+\definecolor{nicered}{rgb}{.647,.129,.149}
+\makeatletter
+\newlength\dlf@normtxtw
+\setlength\dlf@normtxtw{\textwidth}
+\def\myhelvetfont{\def\sfdefault{mdput}}
+\newsavebox{\feline@chapter}
+\newcommand\feline@chapter@marker[1][4cm]{%
+\sbox\feline@chapter{%
+\resizebox{!}{#1}{\fboxsep=1pt%
+\colorbox{niceblue}{\color{white}\bfseries\thechapter}%
+}}%
+\rotatebox{90}{%
+\resizebox{%
+\heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}%
+{!}{\scshape\so\@chapapp}}\quad%
+\raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+}
+\newcommand\feline@chm[1][4cm]{%
+\sbox\feline@chapter{\feline@chapter@marker[#1]}%
+\makebox[0pt][l]{% aka \rlap
+\makebox[1cm][r]{\usebox\feline@chapter}%
+}}
+\makechapterstyle{daleif1}{
+\setlength\beforechapskip{-\topskip-\baselineskip} % denne linje får kapitlerne til at starte højere oppe på siderne...
+\renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
+\renewcommand\chaptitlefont{\normalfont\huge\bfseries}%\color{ForestGreen}} %stod der før, men den meldte fejl pga bfseries: \renewcommand\chaptitlefont{\normalfont\huge\bfseries\scshape}
+\renewcommand\chapternamenum{}
+\renewcommand\printchaptername{}
+\renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par}
+\renewcommand\afterchapternum{\par\vskip\midchapskip}
+% jeg ændrede linien lige under til linien under igen for at flytte kapitelnavnene over til venstre.
+%\renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1\par}
+\renewcommand\printchaptertitle[1]{\chaptitlefont\raggedright ##1\par}
+}
+\makeatother
+\chapterstyle{daleif1}
+
+%%%%%%%%%%%%%%%%%%%
+%-------Chapterstyle (daleif1)--------slut
+%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%
+%-------Appendix på dansk---------------start
+%%%%%%%%%%%%%%%%%%%
+
+%\addtocaptionsdanish{%
+%%\renewcommand{\appendixpagename{Appendiks}}
+%\renewcommand{\appendixname{Appendiks}}
+%}
+
+%\renewcommand\cftappendixname {\appendixname~}
+%\renewcommand\appendixpagename {Appendiks}
+%\renewcommand\appendixtocname {Appendiks}
+%\addto\captionsdanish{
+%\renewcommand\appendixname{Appendiks}
+%}
+
+%%%%%%%%%%%%%%%%%%%
+%-------Appendix  på dansk---------------slut
+%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%
+%-------Pagestyle---------------start
+%%%%%%%%%%%%%%%%%%%
+
+% % Bris - pagestyle: 
+\makepagestyle{bris}
+\makeoddfoot{bris}{}{}{\thepage}
+\makeevenfoot{bris}{\thepage}{}{}
+\makepsmarks{bris}{%
+\def\chaptermark##1{%
+\markboth{\chaptername\ \thechapter.\ ##1}{}%
+}
+\def\sectionmark##1{%
+\markright{\thesection. ##1}%
+}
+\def\subsectionmark##1{%
+\markright{##1}}
+}
+\pagestyle{bris}
+
+% % This - pagestyle: 
+\makepagestyle{this}
+\makeevenhead{this}{}{}{}
+\makeoddhead{this}{}{}{}
+\makeevenfoot{this}{\thepage}{\small{\RapportTitelFooter}}{}
+\makeoddfoot{this}{}{\small{\RapportTitelFooter}}{\thepage}
+\makefootrule{this}{\textwidth}{0.4pt}{3pt}
+\makepsmarks{this}{%
+\def\chaptermark##1{%
+\markboth{\chaptername\ \thechapter.\ ##1}{}%
+}
+\def\sectionmark##1{%
+\markright{\thesection. ##1}%
+}
+\def\subsectionmark##1{%
+\markright{##1}}
+}
+\pagestyle{this}
+
+% % dktug1 - pagestyle
+\makepagestyle{dktug1}
+\makeevenhead{dktug1}{\footnotesize\scshape\leftmark}{}{}
+\makeoddhead{dktug1}{}{}{\footnotesize\scshape\rightmark}
+\makeevenfoot{dktug1}{\thepage}{\small{\docFooter}}{}
+\makeoddfoot{dktug1}{}{\small{\docFooter}}{\thepage}
+\makeheadrule{dktug1}{\textwidth}{0.4pt}
+\makefootrule{dktug1}{\textwidth}{0.4pt}{3pt}
+\makepsmarks{dktug1}{%
+\def\chaptermark##1{%
+\markboth{\chaptername\ \thechapter.\ ##1}{}%
+}
+\def\sectionmark##1{%
+\markright{\thesection. ##1}%
+}
+\def\subsectionmark##1{%
+\markright{##1}}
+}
+\pagestyle{dktug1}
+
+
+%fjerner sidetal fra midten af \appendixpage
+\copypagestyle{part}{empty}
+%\makeevenhead{plain}{}{}{}
+%\makeoddhead{plain}{}{}{}
+
+%flytter sidetal fra midten af første side i indholdsfortegnelsen
+\copypagestyle{plain}{bris}
+%\makeevenhead{plain}{}{}{}
+%\makeoddhead{plain}{}{}{}
+
+%%%%%%%%%%%%%%%%%%%
+%-------Pagestyle---------------slut
+%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% Opsætning af gråtonede environments (start) %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\definecolor{shadecolor}{gray}{0.75}
+%\theoremheaderfont{\large\bfseries\color{niceblue}}
+%\theorembodyfont{\normalfont} \theoremseparator{.}
+%\newtheorem{innerthm}{Summary}[chapter]
+%\newenvironment{thm}{%
+%\begin{shaded}
+%\setlength\theorempreskipamount{0pt}
+%\setlength\theorempostskipamount{0pt}
+%\begin{innerthm}%
+%}{\end{innerthm}\end{shaded}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% Opsætning af gråtonede environments (slut) %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%      egne kommandoer (start)    %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\M}{\textsc{m}}
+\newcommand\rt{\mbox{room temperature}}
+\newcommand\halv{\frac{1}{2}}
+\newcommand{\deltao}{$\delta^{18}\mathrm{O}$ }
+\newcommand{\deltad}{$\delta \mathrm{D}$ }
+
+\newcommand{\HHO}[1]{$ \mathrm{H}_2^{#1}\mathrm{O} $}
+\newcommand{\HDO}{$ \mathrm{HD}^{16}\mathrm{O} $}
+
+
+%\renewcommand{\eqref}[1]{Eq. \eqref{#1}}
+
+\newcommand{\tabref}[1]{Table \ref{#1}}
+
+\newcommand{\figref}[1]{Figure \ref{#1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%      egne kommandoer (start)    %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%   Konstruktion af Scheme-environment (start)  %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\schemename}{Skema}
+\newcommand{\listschemename}{}
+\newlistof{listofschemes}{sch}{\listschemename}
+\newfloat[chapter]{skema}{sch}{\schemename}
+\newfixedcaption{\fschecaption}{skema}
+\newlistentry{skema}{sch}{0}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%   Konstruktion af Scheme-environment (slut)  %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%   Opsætning af captions (start)  %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% pakken ccaption er en integreret del af memoir-klassen og dette åbner muligheden for brug af følgende%
+\captiondelim{: }
+\captionnamefont{\itshape\bfseries\small}%\color{ForestGreen}}
+\captiontitlefont{\small}
+%\belowcaptionskip=0pt
+\abovecaptionskip=4pt
+\setlength{\belowcaptionskip}{4pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%   Opsætning af captions (slut)  %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%   Tikz environments (start)  %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tikzset{circuit declare symbol=relay,
+	circuit ee IEC/.append style=
+	{
+		set relay graphic = relay IEC graphic
+	},
+	relay IEC graphic/.style={
+		circuit symbol open,
+		circuit symbol size=width 1 height 2.25,
+		shape=generic relay IEC,
+		transform shape
+	}
+}
+
+\makeatletter
+
+\pgfdeclareshape{generic relay IEC}{
+	\inheritsavedanchors[from=rectangle ee]
+	\inheritanchor[from=rectangle ee]{center}
+	\inheritanchor[from=rectangle ee]{north}
+	\inheritanchor[from=rectangle ee]{south}
+	\inheritanchor[from=rectangle ee]{east}
+	\inheritanchor[from=rectangle ee]{west}
+	\inheritanchor[from=rectangle ee]{north east}
+	\inheritanchor[from=rectangle ee]{north west}
+	\inheritanchor[from=rectangle ee]{south east}
+	\inheritanchor[from=rectangle ee]{south west}
+	\inheritanchor[from=rectangle ee]{input}
+	\inheritanchor[from=rectangle ee]{output}
+	\inheritanchorborder[from=rectangle ee]
+	
+	\backgroundpath{
+		% Corners
+		\pgf@process{\pgfpointadd{\southwest}{\pgfpoint{\pgfkeysvalueof{/pgf/outer xsep}}{\pgfkeysvalueof{/pgf/outer ysep}}}}
+		\pgf@xa=\pgf@x \pgf@ya=\pgf@y
+		\pgf@process{\pgfpointadd{\northeast}{\pgfpointscale{-1}{\pgfpoint{\pgfkeysvalueof{/pgf/outer xsep}}{\pgfkeysvalueof{/pgf/outer ysep}}}}}
+		\pgf@xb=\pgf@x \pgf@yb=\pgf@y
+		% Start point
+		\pgfpathmoveto{\pgfqpoint{\pgf@xa}{\pgf@ya}}
+		% Lines
+		\pgfpathlineto{\pgfqpoint{\pgf@xa}{\pgf@yb}}
+		\pgfpathlineto{\pgfqpoint{\pgf@xb}{\pgf@yb}}
+		\pgfpathlineto{\pgfqpoint{\pgf@xb}{\pgf@ya}}
+		\pgfpathclose
+		% Diagonal line
+		% pgf@x[ab] contain the distance to the line.
+		% Half the length of the line plus this (X) distance
+		% will yield a good (Y) coordinate.
+		% This is slightly hackish...
+		\pgfpathmoveto{\pgfqpoint{\pgf@xa}{\pgf@xb}}
+		\pgfpathlineto{\pgfqpoint{\pgf@xb}{\pgf@xa}}
+	}
+}
+
+\makeatother
+
+\newcommand{\twovalve}[3]{%
+	\draw[fill=black,rotate around={#3:(#1,#2)}] (#1-.1,#2) -- (#1+.1,#2) -- (#1-.1,#2-.4) -- (#1+.1,#2-.4) -- cycle ;
+	%\draw (#1,#2-1) -- (#1-.5,#2-1);
+	%\draw (#1-.5,#2-1.45) rectangle (#1-1.25,#2-.65);
+	%\node at (#1-2.5,#2-1) { #3};
+}
+
+\newcommand{\threevalve}[3]{%
+	\draw[fill=black,rotate around={#3:(#1,#2)}] (#1-.1,#2) -- (#1+.1,#2) -- (#1-.1,#2-.6) -- (#1+.1,#2-.6) -- cycle ;
+	\draw[fill=black,rotate around={#3:(#1,#2)}] (#1-0.3,#2-.2) --  (#1-0.015,#2-0.3) -- (#1-0.3,#2-.4) --  cycle ;
+	%\draw  (#1-0.3,#2-.2) circle (0.05cm);
+}
+
+\newcommand{\valveright}[3]{%
+	\draw (#1,#2+.3) --  (#1+0.7,#2) -- (#1,#2-.3) --  cycle ;
+}
+
+\newcommand{\process}[2]{%
+	\draw [rounded corners=1.5mm] (#1,#2) rectangle (#1+1.5,#2+.5);
+}
+
+\tikzset{snake it/.style={decorate, decoration=snake}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%   Tikz environments (start)  %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\includeonly{ResultatDiskussion} %man skriver bare "," og så den næste man vil inkludere. ResultatDiskussion,Experimental,
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%
+% Change the depth of the Table of content (TOC)
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{2}
+
+% Change the numbering strategy in figure
+\counterwithout{equation}{chapter}
+\counterwithin{equation}{section}
+\counterwithout{figure}{chapter}
+\counterwithin{figure}{section} 
+
+\makeatletter
+\@removefromreset{figure}{chapter}
+\@addtoreset{figure}{section}
+\renewcommand{\thefigure}{\thesection.\@arabic\c@figure}
+\makeatother

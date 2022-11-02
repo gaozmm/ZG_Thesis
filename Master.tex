@@ -1,0 +1,84 @@
+%% Master fil
+
+
+\include{preamble_speciale}
+
+\def\docTitle{Towards tantalum \protect\\ \protect\vspace{1pt} superconducting qubits with\protect\\ \protect\vspace{15pt} shadowed junction nanowires}
+\def\docSubtitle{Subtitle}
+\def\docSubject{Master thesis}
+\def\docFooter{Master Thesis}
+\def\docAuthor{Zheming Gao}
+\def\docSupervisor{\\Morten Kjaergaard}
+\def\docDate{\today}
+
+\newcommand{\dotsangle}{-8}
+\newcommand{\dotsxshift}{0.9ex}
+\newcommand{\dotsyshift}{0ex}
+\newcommand{\rdots}{\hspace{\dotsxshift}%
+    \raisebox{\dotsyshift}{\rotatebox{\dotsangle}{$\ddots$}}}
+
+\newcommand{\smallbar}[1]{\bar{#1}}
+\renewcommand\bar[1]{\overline{#1}}
+\renewcommand\cite{\citep}
+\renewcommand\vec[1]{\mathbf{#1}}
+
+%% change the numbering of gifure
+
+%% Adding this so you can read my comments.  -Charles
+\newcommand{\cls}[1]{ { \color{purple}\footnotesize \textsf{NOTE:} \textsf{#1} {- Charles}} }
+\begin{document}
+\selectlanguage{english}
+\renewcommand{\thefootnote}{\roman{footnote}}
+\renewcommand{\thesection}{\arabic{section}}
+
+\input{Forside}
+\thispagestyle{empty}
+
+\frontmatter
+
+\thispagestyle{bris}
+\pagestyle{bris}
+
+\input{abstract}
+\input{acknowledgements}
+\newpage
+\thispagestyle{bris}
+\pagestyle{bris}
+\tableofcontents
+% \newpage
+% \listoffigures
+% \newpage
+% \listoftables
+%\newpage
+%\input{abbreviations}
+\mainmatter
+
+%%Change figure numbering
+\counterwithout{figure}{chapter}
+\renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
+
+%brug \input{filename} til at indsætte underdokumenter i masterdokumentet.
+
+\pagestyle{dktug1}
+\input{Introduction.tex}
+\input{Theory.tex}
+\input{Experiment.tex}
+\input{DCmsmt.tex}
+\input{HighFreq}
+\input{Conclusion}
+% \input{QubitMsmt}
+%\input{Result.tex}
+% \input{Analyse.tex}
+%\input{Discussion.tex}
+% \input{Konklusion.tex}
+\bibliography{litteratur}%litterature_articles,
+% \bibliography{} %husk ingen endelser .bib
+
+
+
+ \appendix 
+ \appendixpage \label{app:appendices}
+     \thispagestyle{bris}
+     \pagestyle{bris}
+ \input{appendix.tex}
+\end{document}
